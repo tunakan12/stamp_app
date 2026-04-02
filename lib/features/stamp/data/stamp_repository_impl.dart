@@ -39,13 +39,34 @@ class StampRepositoryImpl implements StampRepository {
   }
 
   @override
-  Future<int> useStamps({required String userId, required int amount}) async {
+  Future<int> useStamps({
+    required String userId,
+    required int amount,
+    String? storeId,
+    String? message,
+  }) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
     final current = _db.stampCounts[userId] ?? 0;
     if (current < amount) {
       throw Exception('スタンプが不足しています');
     }
     _db.stampCounts[userId] = current - amount;
+    String storeName = '特典交換';
+    if (storeId != null) {
+      final matchedStores = _db.stores.where((store) => store.id == storeId);
+      if (matchedStores.isNotEmpty) {
+        storeName = matchedStores.first.name;
+      }
+    }
+    final log = StampLog(
+      id: 'l${DateTime.now().millisecondsSinceEpoch}',
+      storeId: storeId ?? 'reward',
+      storeName: storeName,
+      message: message ?? '特典交換',
+      createdAt: DateTime.now(),
+      amount: -amount,
+    );
+    (_db.stampLogs[userId] ??= []).add(log);
     return _db.stampCounts[userId]!;
   }
 }

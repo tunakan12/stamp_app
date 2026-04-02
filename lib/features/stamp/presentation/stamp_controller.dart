@@ -73,7 +73,10 @@ class StampController extends ChangeNotifier {
       _stampCount = await _stampRepository.useStamps(
         userId: userId,
         amount: reward.requiredStamps,
+        storeId: reward.storeId,
+        message: '特典「${reward.title}」を交換',
       );
+      _logs = await _stampRepository.fetchStampLogs(userId);
       await _notificationRepository.push(
         userId,
         title: '特典交換完了',
