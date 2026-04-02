@@ -66,6 +66,8 @@ class _TicketPageState extends State<TicketPage> {
                         onPressed: ticket.isUsed
                             ? null
                             : () async {
+                                final shouldUseTicket = await _confirmTicketUsage();
+                                if (!shouldUseTicket) return;
                                 await widget.stampController.useTicket(
                                   userId: widget.authController.currentUser!.id,
                                   ticketId: ticket.id,
@@ -86,5 +88,28 @@ class _TicketPageState extends State<TicketPage> {
         );
       },
     );
+  }
+
+  Future<bool> _confirmTicketUsage() async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('確認'),
+          content: const Text('本当に使用しますか？'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('キャンセル'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('使用する'),
+            ),
+          ],
+        );
+      },
+    );
+    return result ?? false;
   }
 }
