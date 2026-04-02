@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../app/constants/app_spacing.dart';
 import '../../../app/router/app_router.dart';
+import '../../../shared/utils/date_formatter.dart';
 import '../../../shared/widgets/app_scaffold.dart';
 import '../../../shared/widgets/section_card.dart';
 import '../../auth/presentation/auth_controller.dart';
@@ -114,14 +115,36 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     const Text('最近の履歴'),
                     const SizedBox(height: AppSpacing.sm),
-                    ...widget.stampController.logs.take(3).map(
-                          (log) => ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(log.storeName),
-                            subtitle: Text(log.message),
-                            trailing: Text(log.amount > 0 ? '+${log.amount}' : '${log.amount}'),
-                          ),
+                    ...widget.stampController.logs.take(5).map(
+                      (log) => Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.sm,
+                          vertical: AppSpacing.xs,
                         ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.35),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              log.storeName,
+                              style: const TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(log.message),
+                            const SizedBox(height: 2),
+                            Text(
+                              DateFormatter.short(log.createdAt),
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
