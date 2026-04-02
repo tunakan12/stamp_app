@@ -96,6 +96,10 @@ class _HomePageState extends State<HomePage> {
                           child: const Text('特典を見る'),
                         ),
                         FilledButton.tonal(
+                          onPressed: () => Navigator.pushNamed(context, AppRoutes.tickets),
+                          child: const Text('チケットを見る'),
+                        ),
+                        FilledButton.tonal(
                           onPressed: () => Navigator.pushNamed(context, AppRoutes.stores),
                           child: const Text('店舗を見る'),
                         ),
@@ -115,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                             contentPadding: EdgeInsets.zero,
                             title: Text(log.storeName),
                             subtitle: Text(log.message),
-                            trailing: Text('+${log.amount}'),
+                            trailing: Text(log.amount > 0 ? '+${log.amount}' : '${log.amount}'),
                           ),
                         ),
                   ],

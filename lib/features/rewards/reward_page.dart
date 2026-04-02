@@ -65,7 +65,7 @@ class _RewardPageState extends State<RewardPage> {
                                         reward: reward,
                                       );
                                       if (!mounted) return;
-                                      final msg = widget.stampController.errorMessage ?? '交換しました';
+                                      final msg = widget.stampController.errorMessage ?? 'チケットを追加しました';
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(content: Text(msg)),
                                       );

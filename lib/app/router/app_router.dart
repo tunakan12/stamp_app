@@ -15,6 +15,7 @@ import '../../features/stamp/presentation/stamp_history_page.dart';
 import '../../features/stamp/presentation/stamp_scan_page.dart';
 import '../../features/store/store_page.dart';
 import '../../features/store/store_repository.dart';
+import '../../features/tickets/ticket_page.dart';
 
 class AppRoutes {
   static const splash = '/';
@@ -23,6 +24,7 @@ class AppRoutes {
   static const scan = '/scan';
   static const history = '/history';
   static const rewards = '/rewards';
+  static const tickets = '/tickets';
   static const stores = '/stores';
   static const profile = '/profile';
   static const notifications = '/notifications';
@@ -74,6 +76,13 @@ class AppRouter {
             authController: authController,
             stampController: stampController,
             rewardRepository: rewardRepository,
+          ),
+        );
+      case AppRoutes.tickets:
+        return MaterialPageRoute(
+          builder: (_) => TicketPage(
+            authController: authController,
+            stampController: stampController,
           ),
         );
       case AppRoutes.stores:
