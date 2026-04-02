@@ -95,14 +95,39 @@ class _TicketPageState extends State<TicketPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('確認'),
-          content: const Text('本当に使用しますか？'),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '本当に使用しますか？',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: AppSpacing.sm),
+              Text(
+                '注意: 店員に見せてください',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
           actions: [
             TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.grey.shade200,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              ),
               onPressed: () => Navigator.of(context).pop(false),
               child: const Text('キャンセル'),
             ),
             TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.grey.shade200,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              ),
               onPressed: () => Navigator.of(context).pop(true),
               child: const Text('使用する'),
             ),
