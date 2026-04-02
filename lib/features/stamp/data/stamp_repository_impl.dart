@@ -26,7 +26,13 @@ class StampRepositoryImpl implements StampRepository {
   Future<List<UserTicket>> fetchTickets(String userId) async {
     await Future<void>.delayed(const Duration(milliseconds: 200));
     final tickets = _db.userTickets[userId] ?? [];
-    return [...tickets]..sort((a, b) => b.exchangedAt.compareTo(a.exchangedAt));
+    return [...tickets]
+      ..sort((a, b) {
+        if (a.isUsed != b.isUsed) {
+          return a.isUsed ? 1 : -1;
+        }
+        return b.exchangedAt.compareTo(a.exchangedAt);
+      });
   }
 
   @override
