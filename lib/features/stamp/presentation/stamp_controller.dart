@@ -104,10 +104,12 @@ class StampController extends ChangeNotifier {
       await _stampRepository.useTicket(userId: userId, ticketId: ticketId);
       _logs = await _stampRepository.fetchStampLogs(userId);
       _tickets = await _stampRepository.fetchTickets(userId);
+      final usedTicket = _tickets.where((ticket) => ticket.id == ticketId);
+      final ticketTitle = usedTicket.isEmpty ? null : usedTicket.first.title;
       await _notificationRepository.push(
         userId,
         title: 'チケット使用',
-        body: '所持チケットを使用しました',
+        body: ticketTitle == null ? '所持チケットを使用しました' : '「$ticketTitle」を使用しました',
       );
       _errorMessage = null;
     } catch (e) {
