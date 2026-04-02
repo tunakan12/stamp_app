@@ -43,7 +43,7 @@ class _StampScanPageState extends State<StampScanPage> {
                     const Text('デモ実装ではQRの代わりに店舗を選んで付与します。'),
                     const SizedBox(height: AppSpacing.md),
                     DropdownButtonFormField<String>(
-                      initialValue: _selectedStoreId,
+                      value: _selectedStoreId,
                       items: stores
                           .map(
                             (e) => DropdownMenuItem(
