@@ -44,7 +44,13 @@ class _StampHistoryPageState extends State<StampHistoryPage> {
                           contentPadding: EdgeInsets.zero,
                           title: Text(log.storeName),
                           subtitle: Text('${log.message}\n${DateFormatter.short(log.createdAt)}'),
-                          trailing: Text('+${log.amount}'),
+                          trailing: Text(
+                            log.amount > 0 ? '+${log.amount}' : '${log.amount}',
+                            style: TextStyle(
+                              color: log.amount > 0 ? Colors.green : Colors.red,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
                       )
                       .toList(),
