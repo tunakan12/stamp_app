@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../shared/models/reward_model.dart';
 import '../../../shared/models/stamp_log.dart';
+import '../../../shared/models/user_ticket.dart';
 import '../../notifications/notification_repository.dart';
 import '../../rewards/reward_repository.dart';
 import '../../store/store_repository.dart';
@@ -23,11 +24,13 @@ class StampController extends ChangeNotifier {
   int _stampCount = 0;
   bool _isLoading = false;
   List<StampLog> _logs = [];
+  List<UserTicket> _tickets = [];
   String? _errorMessage;
 
   int get stampCount => _stampCount;
   bool get isLoading => _isLoading;
   List<StampLog> get logs => _logs;
+  List<UserTicket> get tickets => _tickets;
   String? get errorMessage => _errorMessage;
 
   Future<void> load(String userId) async {
@@ -36,6 +39,7 @@ class StampController extends ChangeNotifier {
     try {
       _stampCount = await _stampRepository.fetchStampCount(userId);
       _logs = await _stampRepository.fetchStampLogs(userId);
+      _tickets = await _stampRepository.fetchTickets(userId);
       _errorMessage = null;
     } catch (e) {
       _errorMessage = e.toString();
@@ -76,11 +80,34 @@ class StampController extends ChangeNotifier {
         storeId: reward.storeId,
         message: '特典「${reward.title}」を交換',
       );
+      await _stampRepository.addTicket(userId: userId, reward: reward);
       _logs = await _stampRepository.fetchStampLogs(userId);
+      _tickets = await _stampRepository.fetchTickets(userId);
       await _notificationRepository.push(
         userId,
         title: '特典交換完了',
-        body: '「${reward.title}」を交換しました',
+        body: '「${reward.title}」をチケットとして追加しました',
+      );
+      _errorMessage = null;
+    } catch (e) {
+      _errorMessage = e.toString().replaceFirst('Exception: ', '');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> useTicket({required String userId, required String ticketId}) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      await _stampRepository.useTicket(userId: userId, ticketId: ticketId);
+      _logs = await _stampRepository.fetchStampLogs(userId);
+      _tickets = await _stampRepository.fetchTickets(userId);
+      await _notificationRepository.push(
+        userId,
+        title: 'チケット使用',
+        body: '所持チケットを使用しました',
       );
       _errorMessage = null;
     } catch (e) {

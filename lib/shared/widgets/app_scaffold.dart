@@ -30,8 +30,9 @@ class AppScaffold extends StatelessWidget {
           final route = switch (index) {
             0 => AppRoutes.home,
             1 => AppRoutes.rewards,
-            2 => AppRoutes.stores,
-            3 => AppRoutes.profile,
+            2 => AppRoutes.tickets,
+            3 => AppRoutes.stores,
+            4 => AppRoutes.profile,
             _ => AppRoutes.home,
           };
           if (ModalRoute.of(context)?.settings.name != route) {
@@ -41,6 +42,7 @@ class AppScaffold extends StatelessWidget {
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home_outlined), label: 'ホーム'),
           NavigationDestination(icon: Icon(Icons.card_giftcard_outlined), label: '特典'),
+          NavigationDestination(icon: Icon(Icons.confirmation_number_outlined), label: 'チケット'),
           NavigationDestination(icon: Icon(Icons.storefront_outlined), label: '店舗'),
           NavigationDestination(icon: Icon(Icons.person_outline), label: 'プロフィール'),
         ],

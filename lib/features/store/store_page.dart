@@ -17,7 +17,7 @@ class StorePage extends StatelessWidget {
         final stores = snapshot.data ?? [];
         return AppScaffold(
           title: '店舗一覧',
-          currentIndex: 2,
+          currentIndex: 3,
           body: ListView(
             children: stores
                 .map(

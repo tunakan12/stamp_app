@@ -62,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = widget.authController.currentUser;
     return AppScaffold(
       title: 'プロフィール',
-      currentIndex: 3,
+      currentIndex: 4,
       body: ListView(
         children: [
           SectionCard(

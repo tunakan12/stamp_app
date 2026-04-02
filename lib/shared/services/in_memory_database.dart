@@ -3,6 +3,7 @@ import '../models/app_user.dart';
 import '../models/reward_model.dart';
 import '../models/stamp_log.dart';
 import '../models/store_model.dart';
+import '../models/user_ticket.dart';
 
 class InMemoryDatabase {
   InMemoryDatabase({
@@ -13,6 +14,7 @@ class InMemoryDatabase {
     required this.rewards,
     required this.stores,
     required this.notifications,
+    required this.userTickets,
   });
 
   final Map<String, AppUser> users;
@@ -22,6 +24,7 @@ class InMemoryDatabase {
   final List<RewardModel> rewards;
   final List<StoreModel> stores;
   final Map<String, List<AppNotification>> notifications;
+  final Map<String, List<UserTicket>> userTickets;
 
   static InMemoryDatabase seeded() {
     const user = AppUser(
@@ -97,6 +100,9 @@ class InMemoryDatabase {
             createdAt: DateTime.now().subtract(const Duration(days: 1)),
           )
         ],
+      },
+      userTickets: {
+        'u1': [],
       },
     );
   }
