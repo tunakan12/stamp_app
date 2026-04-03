@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../app/constants/app_spacing.dart';
 import '../../shared/widgets/app_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
-import '../../shared/widgets/section_card.dart';
 import '../auth/presentation/auth_controller.dart';
 import '../stamp/presentation/stamp_controller.dart';
 import 'reward_repository.dart';
@@ -38,23 +36,74 @@ class _RewardPageState extends State<RewardPage> {
               title: '特典一覧',
               currentIndex: 1,
               body: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
                 children: [
-                  SectionCard(
-                    child: Text('保有スタンプ: ${widget.stampController.stampCount}個'),
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF0EA5E9), Color(0xFF2563EB)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '現在の保有スタンプ',
+                          style: TextStyle(color: Color(0xFFDBEAFE), fontSize: 12),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          '${widget.stampController.stampCount} 個',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 32,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  const SizedBox(height: 16),
                   ...rewards.map(
                     (reward) {
                       final canRedeem = widget.stampController.stampCount >= reward.requiredStamps;
-                      return SectionCard(
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(reward.title, style: Theme.of(context).textTheme.titleMedium),
-                            const SizedBox(height: AppSpacing.xs),
-                            Text(reward.description),
-                            const SizedBox(height: AppSpacing.xs),
-                            Text('必要スタンプ: ${reward.requiredStamps}'),
-                            const SizedBox(height: AppSpacing.sm),
+                            Text(
+                              reward.title,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF0F172A),
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              reward.description,
+                              style: const TextStyle(color: Color(0xFF475569)),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              '必要スタンプ: ${reward.requiredStamps}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
                             PrimaryButton(
                               label: canRedeem ? '交換する' : 'スタンプ不足',
                               isLoading: widget.stampController.isLoading,
