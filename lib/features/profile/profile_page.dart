@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../app/constants/app_spacing.dart';
 import '../../app/router/app_router.dart';
 import '../../shared/widgets/app_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
-import '../../shared/widgets/section_card.dart';
 import '../auth/presentation/auth_controller.dart';
 import 'profile_repository.dart';
 
@@ -64,26 +62,60 @@ class _ProfilePageState extends State<ProfilePage> {
       title: 'プロフィール',
       currentIndex: 4,
       body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
         children: [
-          SectionCard(
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CircleAvatar(radius: 28, child: Icon(Icons.person)),
-                const SizedBox(height: AppSpacing.md),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(labelText: '名前'),
+                const Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 24,
+                      backgroundColor: Color(0xFFEEF2FF),
+                      child: Icon(Icons.person, color: Color(0xFF4F46E5)),
+                    ),
+                    SizedBox(width: 12),
+                    Text(
+                      'アカウント情報',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF0F172A),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: AppSpacing.sm),
-                Text(user?.email ?? ''),
-                const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    labelText: '名前',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  initialValue: user?.email ?? '',
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: 'メールアドレス',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
                 PrimaryButton(
                   label: '保存',
                   onPressed: _save,
                   isLoading: _isSaving,
                 ),
-                const SizedBox(height: AppSpacing.sm),
+                const SizedBox(height: 10),
                 OutlinedButton(
                   onPressed: () async {
                     await widget.authController.logout();
