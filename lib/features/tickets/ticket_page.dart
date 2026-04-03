@@ -114,7 +114,7 @@ class _TicketPageState extends State<TicketPage> {
                 '注意: 店員に見せてください',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 12,
                   fontWeight: FontWeight.w600,
                 ),
               ),
