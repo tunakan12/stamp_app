@@ -61,39 +61,48 @@ class _HomePageState extends State<HomePage> {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF6366F1), Color(0xFF9333EA)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(24),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'こんにちは、',
-                      style: TextStyle(color: Color(0xFFC7D2FE), fontSize: 13),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${user?.name ?? 'ゲスト'} さん',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                      'Stamp UI Reference',
+                      style: TextStyle(
+                        color: Color(0xFF0F172A),
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Flutterプロジェクト内に配置したHTML参照ファイルです。',
+                      style: TextStyle(
+                        color: Color(0xFF475569),
+                        fontSize: 13,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      '${user?.name ?? 'ゲスト'} さんのスタンプ状況',
+                      style: const TextStyle(
+                        color: Color(0xFF1E293B),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
                           '$stampCount',
                           style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF111827),
+                            fontSize: 42,
+                            fontWeight: FontWeight.w700,
                             height: 0.9,
                           ),
                         ),
@@ -102,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.only(bottom: 6),
                           child: Text(
                             '/ $maxStamp スタンプ',
-                            style: const TextStyle(color: Color(0xFFC7D2FE)),
+                            style: const TextStyle(color: Color(0xFF64748B)),
                           ),
                         ),
                       ],
@@ -113,8 +122,9 @@ class _HomePageState extends State<HomePage> {
                       child: LinearProgressIndicator(
                         value: progress,
                         minHeight: 10,
-                        backgroundColor: const Color(0x33433B82),
-                        valueColor: const AlwaysStoppedAnimation(Colors.white),
+                        backgroundColor: const Color(0xFFE2E8F0),
+                        valueColor:
+                            const AlwaysStoppedAnimation(Color(0xFF4F46E5)),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -123,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text(
                         remaining == 0 ? '交換可能な特典があります' : '次の特典まであと $remaining 個',
                         style: const TextStyle(
-                          color: Color(0xFFC7D2FE),
+                          color: Color(0xFF475569),
                           fontSize: 12,
                         ),
                       ),
@@ -252,11 +262,12 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.only(right: 10),
       child: ActionChip(
         onPressed: onTap,
-        backgroundColor: const Color(0xFFEEF2FF),
+        backgroundColor: Colors.white,
+        side: const BorderSide(color: Color(0xFFE2E8F0)),
         label: Text(
           text,
           style: const TextStyle(
-            color: Color(0xFF4338CA),
+            color: Color(0xFF334155),
             fontWeight: FontWeight.w600,
           ),
         ),
