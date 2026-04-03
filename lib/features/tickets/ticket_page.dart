@@ -105,7 +105,7 @@ class _TicketPageState extends State<TicketPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.red,
-                  fontSize: 28,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
