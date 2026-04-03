@@ -46,12 +46,6 @@ class _HomePageState extends State<HomePage> {
         return AppScaffold(
           title: 'ホーム',
           currentIndex: 0,
-          actions: [
-            IconButton(
-              onPressed: () => Navigator.pushNamed(context, AppRoutes.notifications),
-              icon: const Icon(Icons.notifications_none),
-            ),
-          ],
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () => Navigator.pushNamed(context, AppRoutes.scan),
             icon: const Icon(Icons.qr_code_scanner),
@@ -88,6 +82,10 @@ class _HomePageState extends State<HomePage> {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
+                        FilledButton.tonal(
+                          onPressed: () => Navigator.pushNamed(context, AppRoutes.scan),
+                          child: const Text('スタンプ取得'),
+                        ),
                         FilledButton.tonal(
                           onPressed: () => Navigator.pushNamed(context, AppRoutes.history),
                           child: const Text('履歴を見る'),
