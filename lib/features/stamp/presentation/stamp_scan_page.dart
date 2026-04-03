@@ -24,11 +24,23 @@ class StampScanPage extends StatefulWidget {
 
 class _StampScanPageState extends State<StampScanPage> {
   final _storeRepository = StoreRepository.global;
-  String? _selectedStoreId = 's1';
+  String? _selectedStoreId;
+
+  @override
+  void initState() {
+    super.initState();
+    final stores = _storeRepository.fetchAllSync();
+    if (stores.isNotEmpty) {
+      _selectedStoreId = stores.first.id;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final stores = _storeRepository.fetchAllSync();
+    if (stores.isNotEmpty && stores.every((store) => store.id != _selectedStoreId)) {
+      _selectedStoreId = stores.first.id;
+    }
     return AnimatedBuilder(
       animation: widget.stampController,
       builder: (context, _) {
@@ -42,28 +54,38 @@ class _StampScanPageState extends State<StampScanPage> {
                   children: [
                     const Text('デモ実装ではQRの代わりに店舗を選んで付与します。'),
                     const SizedBox(height: AppSpacing.md),
-                    DropdownButtonFormField<String>(
-                      value: _selectedStoreId,
-                      items: stores
-                          .map(
-                            (e) => DropdownMenuItem(
-                              value: e.id,
-                              child: Text(e.name),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) => setState(() => _selectedStoreId = value),
-                      decoration: const InputDecoration(labelText: '店舗'),
-                    ),
+                    if (stores.isEmpty)
+                      const Text('利用可能な店舗がありません。')
+                    else
+                      DropdownButtonFormField<String>(
+                        value: _selectedStoreId,
+                        items: stores
+                            .map(
+                              (e) => DropdownMenuItem(
+                                value: e.id,
+                                child: Text(e.name),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) => setState(() => _selectedStoreId = value),
+                        decoration: const InputDecoration(labelText: '店舗'),
+                      ),
                     const SizedBox(height: AppSpacing.md),
                     PrimaryButton(
                       label: 'スタンプを付与する',
                       isLoading: widget.stampController.isLoading,
-                      onPressed: _selectedStoreId == null
+                      onPressed: _selectedStoreId == null || stores.isEmpty
                           ? null
                           : () async {
+                              final user = widget.authController.currentUser;
+                              if (user == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('ユーザー情報が見つかりません')),
+                                );
+                                return;
+                              }
                               await widget.stampController.scanAndGrant(
-                                userId: widget.authController.currentUser!.id,
+                                userId: user.id,
                                 storeId: _selectedStoreId!,
                               );
                               if (!mounted) return;
